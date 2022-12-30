@@ -2,7 +2,7 @@ import { Avatar, Button, FloatButton, Image } from "antd";
 import React, { useEffect } from "react";
 import { HiOutlineHeart, HiPlay } from "react-icons/hi2";
 import styled from "styled-components";
-import { StyledTag } from "../../components/BlogCard";
+import BlogCard, { StyledTag } from "../../components/BlogCard";
 import BlogTags from "../../components/BlogTags";
 import {
   CiBookmarkPlus,
@@ -15,6 +15,7 @@ import {
   CiShare2,
   CiTwitter,
 } from "react-icons/ci";
+import CommentsSection from "../../components/CommentsSection";
 
 const BlogDetails = () => {
   useEffect(() => {
@@ -199,6 +200,15 @@ const BlogDetails = () => {
           </StyledSideContentButton>
         </SideContentWrapper>
       </BodyWrapper>
+      <RelatedBlogsWrapper>
+        <h3>More from Streamline</h3>
+        <RelatedWrapper>
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+        </RelatedWrapper>
+      </RelatedBlogsWrapper>
+      <CommentsSection />
     </BlogWrapper>
   );
 };
@@ -278,6 +288,27 @@ const StyledSideContentButton = styled(Button)`
   & span {
     margin-left: 1rem;
   }
+`;
+
+const RelatedBlogsWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 0 5rem;
+  display: flex;
+  flex-direction: column;
+
+  & h3 {
+    margin-bottom: 1rem;
+  }
+`;
+
+const RelatedWrapper = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
 `;
 
 export default BlogDetails;

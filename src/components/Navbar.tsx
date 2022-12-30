@@ -38,7 +38,7 @@ const Navbar = ({ appTheme, setAppTheme }: IAppThemeProps) => {
 const NavWrapper = styled.nav`
   width: 100%;
   height: 60px;
-  box-shadow: 0 4px 10px ${({ theme }) => theme.navbarBoxShadow};
+  box-shadow: 0 2px 2px -2px ${({ theme }) => theme.navbarBoxShadow};
   transition: background 150ms linear;
   background: ${({ theme }) => theme.navbarBg};
   position: sticky;

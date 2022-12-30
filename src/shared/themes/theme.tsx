@@ -9,7 +9,7 @@ export const lightTheme = {
   text: "#111",
   blogTagsBg: "#fafbff",
   navbarBg: "rgba(255, 255, 255, 0.98)",
-  navbarBoxShadow: "rgb(0 0 0 / 8%)",
+  navbarBoxShadow: "rgb(0 0 0 / 15%)",
   blogCardText: "#2f1c6a",
   themeButtonBg: "#eee",
 };
@@ -19,7 +19,7 @@ export const darkTheme = {
   text: "#fff",
   blogTagsBg: "#222",
   navbarBg: "rgba(0, 0, 0, 0.98)",
-  navbarBoxShadow: "rgb(255 255 255 / 8%)",
+  navbarBoxShadow: "rgb(255 255 255 / 15%)",
   blogCardText: "#e7e9f9",
   themeButtonBg: "#222",
 };
