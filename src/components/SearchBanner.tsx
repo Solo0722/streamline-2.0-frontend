@@ -32,6 +32,7 @@ const SearchBannerWrapper = styled.div`
   & h1 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
+    text-align: center;
   }
 
   & .space-container {
@@ -42,9 +43,9 @@ const SearchBannerWrapper = styled.div`
 const StyledSearchInput = styled(Input)`
   border-radius: 100px;
   height: 45px;
-  width: 60%;
+  width: 62%;
   padding: 0 2rem;
-  margin: 0 10px;
+  margin:10px;
 `;
 const StyledSearchButton = styled(Button)`
   border-radius: 100px;
@@ -52,7 +53,7 @@ const StyledSearchButton = styled(Button)`
   width: 30%;
   padding: 0 2rem;
   background-color: ${({ theme }) => theme.secondaryColor};
-  margin: 0 10px;
+  margin:10px;
 
   &:hover {
     background-color: ${({ theme }) => theme.secondaryColor};

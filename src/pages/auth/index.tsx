@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Form, Button, message, Input, Divider } from "antd";
+import { Link } from "react-router-dom";
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
@@ -22,7 +23,9 @@ const Auth = () => {
   return (
     <AuthWrapper>
       <nav>
-        <h3 className="logo">Streamline</h3>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <h3 className="logo">Streamline</h3>
+        </Link>
       </nav>
       <FormContainer id="auth">
         <Wrapper>

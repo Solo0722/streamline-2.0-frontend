@@ -3,14 +3,25 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./home";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
+import UserProfile from "./userProfile";
+import BlogDetails from "./blogDetails";
+import CreateBlog from "./createBlog";
 
-const MainRoutes = () => {
+export interface IAppThemeProps {
+  appTheme: unknown;
+  setAppTheme: (value: unknown) => void;
+}
+
+const MainRoutes = ({ appTheme, setAppTheme }: IAppThemeProps) => {
   return (
     <>
-      <Navbar />
+      <Navbar appTheme={appTheme} setAppTheme={setAppTheme} />
       <RoutesWrapper>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/*" element={<Home />} />
+          <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/blogs/:blogId" element={<BlogDetails />} />
+          <Route path="/create-blog" element={<CreateBlog />} />
         </Routes>
       </RoutesWrapper>
     </>

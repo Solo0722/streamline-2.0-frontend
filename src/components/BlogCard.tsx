@@ -1,11 +1,14 @@
 import { Button, Tag } from "antd";
 import React from "react";
 import { CiBookmarkPlus } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const BlogCard = () => {
+  const navigate = useNavigate();
+
   return (
-    <CardWrapper>
+    <CardWrapper onClick={() => navigate("/blogs/1")}>
       <ImageWrapper>
         <img src="/home-page-bg.png" alt="" />
         <StyledBookmarkButton
@@ -38,7 +41,7 @@ const CardWrapper = styled.div`
   -webkit-box-flex: 0;
   flex: 0 0 30%;
   max-width: 30%;
-  color: #2f1c6a;
+  color: ${({ theme }) => theme.blogCardText};
   cursor: pointer;
 `;
 
@@ -92,10 +95,11 @@ const ContentWrapper = styled.div`
   }
 `;
 
-const StyledTag = styled(Tag)`
+export const StyledTag = styled(Tag)`
   border-radius: 20px;
   border: none;
   background-color: ${({ theme }) => theme.tertiaryColor};
+  color: #222;
 `;
 
 export default BlogCard;

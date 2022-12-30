@@ -1,16 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
 import MainRoutes from "./pages/main/routes";
 import Auth from "./pages/auth/index";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./shared/themes/globalStyles";
 import { ConfigProvider, theme } from "antd";
 import { darkTheme, defaultTheme, lightTheme } from "./shared/themes/theme";
-import useDarkMode from "beautiful-react-hooks/useDarkMode";
-import "./App.css";
+import useLocalStorage from "beautiful-react-hooks/useLocalStorage";
 
 function App() {
-  const { toggle, enable, disable, isDarkMode } = useDarkMode();
-
+  const isDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const [appTheme, setAppTheme] = useLocalStorage(
+    "appTheme",
+    isDarkTheme ? "dark" : "light"
+  );
   return (
     <>
       <ConfigProvider
@@ -20,14 +23,20 @@ function App() {
             borderRadius: 3,
             fontFamily: "Manrope,sans-serif",
           },
-          algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+          algorithm:
+            appTheme === "light" ? theme.defaultAlgorithm : theme.darkAlgorithm,
         }}
       >
-        <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+        <ThemeProvider theme={appTheme === "light" ? lightTheme : darkTheme}>
           <GlobalStyles />
           <BrowserRouter>
             <Routes>
-              <Route path="/*" element={<MainRoutes />} />
+              <Route
+                path="/*"
+                element={
+                  <MainRoutes appTheme={appTheme} setAppTheme={setAppTheme} />
+                }
+              />
               <Route path="/auth" element={<Auth />} />
             </Routes>
           </BrowserRouter>

@@ -8,10 +8,18 @@ export const lightTheme = {
   backgroundColor: "#fff",
   text: "#111",
   blogTagsBg: "#fafbff",
+  navbarBg: "rgba(255, 255, 255, 0.98)",
+  navbarBoxShadow: "rgb(0 0 0 / 8%)",
+  blogCardText: "#2f1c6a",
+  themeButtonBg: "#eee",
 };
 export const darkTheme = {
   ...defaultTheme,
   backgroundColor: "#111",
   text: "#fff",
-  blogTagsBg: "#1a1b11",
+  blogTagsBg: "#222",
+  navbarBg: "rgba(0, 0, 0, 0.98)",
+  navbarBoxShadow: "rgb(255 255 255 / 8%)",
+  blogCardText: "#e7e9f9",
+  themeButtonBg: "#222",
 };
