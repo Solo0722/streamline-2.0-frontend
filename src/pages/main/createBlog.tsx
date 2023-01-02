@@ -12,6 +12,7 @@ import {
 import React, { useState } from "react";
 import { BsCloudUpload } from "react-icons/bs";
 import styled from "styled-components";
+import { MEDIA_QUERIES } from "../../shared/utils/constants";
 
 const CreateBlog = () => {
   const onFinish = (values: any) => {
@@ -95,12 +96,24 @@ const CreateBlogWrapper = styled.div`
   & .title-bar small {
     opacity: 0.6;
   }
+
+  ${MEDIA_QUERIES.TABLET} {
+    & {
+      padding: 1rem;
+    }
+  }
 `;
 
 const MainWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  ${MEDIA_QUERIES.TABLET} {
+    & {
+      flex-direction: column;
+    }
+  }
 `;
 const ImageUploadWrapper = styled.div`
   border: 2px dashed gray;
@@ -118,6 +131,13 @@ const ImageUploadWrapper = styled.div`
   & small {
     margin-top: 0.5rem;
   }
+
+  ${MEDIA_QUERIES.TABLET} {
+    & {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+  }
 `;
 const ContentWrapper = styled.div`
   /* border: 1px solid blue; */
@@ -126,6 +146,12 @@ const ContentWrapper = styled.div`
 
   form label {
     font-weight: bold;
+  }
+
+  ${MEDIA_QUERIES.TABLET} {
+    & {
+      width: 100%;
+    }
   }
 `;
 export default CreateBlog;

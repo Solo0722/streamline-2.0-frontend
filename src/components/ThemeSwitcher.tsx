@@ -25,7 +25,7 @@ const ThemeSwitcher = ({ appTheme, setAppTheme }: IAppThemeAndDrawerProps) => {
   );
 };
 
-const StyleThemeButton = styled(Button)`
+export const StyleThemeButton = styled(Button)`
   background: ${({ theme }) => theme.themeButtonBg};
 `;
 

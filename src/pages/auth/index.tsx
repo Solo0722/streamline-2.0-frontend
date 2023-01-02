@@ -156,11 +156,13 @@ const FormContainer = styled.div`
   ${MEDIA_QUERIES.MOBILE} {
     & {
       width: 100%;
+      padding: 0;
     }
   }
   ${MEDIA_QUERIES.TABLET} {
     & {
       width: 80%;
+      padding: 0;
     }
   }
 `;
