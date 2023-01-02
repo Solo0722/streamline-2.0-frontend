@@ -3,13 +3,16 @@ import React from "react";
 import styled from "styled-components";
 import { blogTags } from "../shared/utils/data";
 import { CiSearch } from "react-icons/ci";
+import { MEDIA_QUERIES } from "../shared/utils/constants";
 
 const BlogTags = () => {
   return (
     <BlogTagsWrapper>
       <div>
         {blogTags.map((tag) => (
-          <span className="blog-tag">{tag}</span>
+          <span className="blog-tag" key={tag}>
+            {tag}
+          </span>
         ))}
       </div>
       <div>
@@ -35,6 +38,12 @@ const BlogTagsWrapper = styled.div`
     padding: 0.4rem;
     border-radius: 7px;
     font-size: 0.8rem;
+  }
+
+  ${MEDIA_QUERIES.TABLET} {
+    &  {
+      display: none;
+    }
   }
 `;
 

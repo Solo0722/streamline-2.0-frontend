@@ -3,18 +3,20 @@ import React from "react";
 import { CiBookmarkPlus } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { MEDIA_QUERIES } from "../shared/utils/constants";
 
 const BlogCard = () => {
   const navigate = useNavigate();
 
   return (
-    <CardWrapper onClick={() => navigate("/blogs/1")}>
+    <CardWrapper>
       <ImageWrapper>
         <img src="/home-page-bg.png" alt="" />
         <StyledBookmarkButton
           shape="circle"
           type="text"
           icon={<CiBookmarkPlus size={20} />}
+          onClick={(e) => e.stopPropagation()}
         />
       </ImageWrapper>
       <ContentWrapper>
@@ -22,7 +24,7 @@ const BlogCard = () => {
           <small className="date">Dec 30</small>
           <StyledTag>Web dev</StyledTag>
         </div>
-        <div className="title">
+        <div className="title" onClick={() => navigate("/blogs/1")}>
           <h3>The best fonts in 2023</h3>
           <small className="desc">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet odit
@@ -43,6 +45,13 @@ const CardWrapper = styled.div`
   max-width: 30%;
   color: ${({ theme }) => theme.blogCardText};
   cursor: pointer;
+
+  ${MEDIA_QUERIES.MOBILE} {
+    & {
+      max-width: 100%;
+      flex: 0 0 100%;
+    }
+  }
 `;
 
 const ImageWrapper = styled.div`

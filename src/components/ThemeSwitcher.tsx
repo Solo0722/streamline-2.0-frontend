@@ -2,12 +2,17 @@ import { Button } from "antd";
 import React from "react";
 import styled from "styled-components";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi2";
-import { IAppThemeProps } from "../pages/main/routes";
+import { IAppThemeAndDrawerProps } from "../pages/main/routes";
 
-const ThemeSwitcher = ({ appTheme, setAppTheme }: IAppThemeProps) => {
+const ThemeSwitcher = ({ appTheme, setAppTheme }: IAppThemeAndDrawerProps) => {
   const themeToggler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    appTheme === "light" ? setAppTheme("dark") : setAppTheme("light");
+
+    if (appTheme === "light") {
+      setAppTheme !== undefined && setAppTheme("dark");
+    } else {
+      setAppTheme !== undefined && setAppTheme("light");
+    }
   };
 
   return (

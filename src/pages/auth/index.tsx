@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Form, Button, message, Input, Divider } from "antd";
 import { Link } from "react-router-dom";
+import { MEDIA_QUERIES } from "../../shared/utils/constants";
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
@@ -152,9 +153,14 @@ const FormContainer = styled.div`
   justify-content: center;
   padding: 2rem;
 
-  @media screen and (max-width: 600px) {
+  ${MEDIA_QUERIES.MOBILE} {
     & {
       width: 100%;
+    }
+  }
+  ${MEDIA_QUERIES.TABLET} {
+    & {
+      width: 80%;
     }
   }
 `;

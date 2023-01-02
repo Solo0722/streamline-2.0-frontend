@@ -1,15 +1,25 @@
 import { Button, Input, Space } from "antd";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { MEDIA_QUERIES } from "../shared/utils/constants";
 
 const SearchBanner = () => {
+  const navigate = useNavigate();
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    navigate(`/search/${e.target[0].value}`);
+  };
+
   return (
     <SearchBannerWrapper>
       <h1>Get the best and latest news in the world of tech</h1>
-      <div className="space-container">
+      <form className="space-container" onSubmit={handleSubmit}>
         <StyledSearchInput placeholder="Search blogs" />
-        <StyledSearchButton type="primary">Search</StyledSearchButton>
-      </div>
+        <StyledSearchButton htmlType="submit" type="primary">
+          Search
+        </StyledSearchButton>
+      </form>
     </SearchBannerWrapper>
   );
 };
@@ -38,6 +48,16 @@ const SearchBannerWrapper = styled.div`
   & .space-container {
     width: 70%;
   }
+
+  ${MEDIA_QUERIES.TABLET} {
+    & .space-container {
+      width: 80%;
+    }
+
+    & h1 {
+      font-size: 2rem;
+    }
+  }
 `;
 
 const StyledSearchInput = styled(Input)`
@@ -45,7 +65,13 @@ const StyledSearchInput = styled(Input)`
   height: 45px;
   width: 62%;
   padding: 0 2rem;
-  margin:10px;
+  margin: 10px;
+
+  ${MEDIA_QUERIES.TABLET} {
+    & {
+      width: 100%;
+    }
+  }
 `;
 const StyledSearchButton = styled(Button)`
   border-radius: 100px;
@@ -53,11 +79,17 @@ const StyledSearchButton = styled(Button)`
   width: 30%;
   padding: 0 2rem;
   background-color: ${({ theme }) => theme.secondaryColor};
-  margin:10px;
+  margin: 10px;
 
   &:hover {
-    background-color: ${({ theme }) => theme.secondaryColor};
-    opacity: 0.7;
+    background: ${({ theme }) => theme.secondaryColor};
+    /* opacity: 0.7; */
+  }
+
+  ${MEDIA_QUERIES.TABLET} {
+    & {
+      width: 100%;
+    }
   }
 `;
 

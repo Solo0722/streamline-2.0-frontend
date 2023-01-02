@@ -3,11 +3,18 @@ import { Avatar, Button } from "antd";
 import React from "react";
 import styled from "styled-components";
 import ThemeSwitcher from "./ThemeSwitcher";
-import { IAppThemeProps } from "../pages/main/routes";
+import { IAppThemeAndDrawerProps } from "../pages/main/routes";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
+import { MEDIA_QUERIES } from "../shared/utils/constants";
+import { Fade as Hamburger } from "hamburger-react";
 
-const Navbar = ({ appTheme, setAppTheme }: IAppThemeProps) => {
+const Navbar = ({
+  appTheme,
+  setAppTheme,
+  isDrawerOpen,
+  setIsDrawerOpen,
+}: IAppThemeAndDrawerProps) => {
   const navigate = useNavigate();
 
   return (
@@ -21,6 +28,7 @@ const Navbar = ({ appTheme, setAppTheme }: IAppThemeProps) => {
           type="primary"
           shape="round"
           icon={<HiOutlinePencilSquare style={{ marginRight: "5px" }} />}
+          onClick={() => navigate("/create-blog")}
         >
           Write
         </StyledWriteButton>
@@ -31,6 +39,9 @@ const Navbar = ({ appTheme, setAppTheme }: IAppThemeProps) => {
           <UserOutlined />
         </Avatar> */}
       </ToolsWrapper>
+      <div className="hamburger">
+        <Hamburger size={18} toggled={isDrawerOpen} toggle={setIsDrawerOpen} />
+      </div>
     </NavWrapper>
   );
 };
@@ -38,7 +49,7 @@ const Navbar = ({ appTheme, setAppTheme }: IAppThemeProps) => {
 const NavWrapper = styled.nav`
   width: 100%;
   height: 60px;
-  box-shadow: 0 2px 2px -2px ${({ theme }) => theme.navbarBoxShadow};
+  box-shadow: 0 4px 10px ${({ theme }) => theme.navbarBoxShadow};
   transition: background 150ms linear;
   background: ${({ theme }) => theme.navbarBg};
   position: sticky;
@@ -53,6 +64,16 @@ const NavWrapper = styled.nav`
   & .logo {
     font-family: "Lobster Two", "Manrope", sans-serif;
   }
+
+  & .hamburger {
+    display: none;
+  }
+
+  ${MEDIA_QUERIES.TABLET} {
+    & .hamburger {
+      display: inline-block;
+    }
+  }
 `;
 
 const ToolsWrapper = styled.div`
@@ -62,6 +83,12 @@ const ToolsWrapper = styled.div`
 
   & .avatar {
     background: ${({ theme }) => theme.themeButtonBg};
+  }
+
+  ${MEDIA_QUERIES.TABLET} {
+    & {
+      display: none;
+    }
   }
 `;
 
