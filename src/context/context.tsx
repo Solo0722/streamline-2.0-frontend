@@ -1,10 +1,35 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useLocalStorage } from "../shared/utils/hooks";
+import { client } from "../shared/utils/sanityClient";
+import { blogsQuery, singleBlogQuery } from "../shared/utils/sanityQueries";
 
-export const GlobalContext = createContext({});
+type IContext = {
+  blogs?: object[];
+};
 
-const GlobalProvider = () => {
+export const GlobalContext = createContext<IContext>({});
+
+const GlobalProvider = ({ children }: any) => {
+  const [blogs, setBlogs] = useLocalStorage("blogs", []);
+  const location = useLocation();
+
+  const getAllBlogs = () => {
+    client.fetch(blogsQuery).then((data) => {
+      setBlogs(data);
+    });
+  };
+
+  
+
+  useEffect(() => {
+    location.pathname === "/" && getAllBlogs();
+  }, [location]);
+
   return (
-    <GlobalContext.Provider value={{}}>GlobalProvider</GlobalContext.Provider>
+    <GlobalContext.Provider value={{ blogs }}>
+      {children}
+    </GlobalContext.Provider>
   );
 };
 

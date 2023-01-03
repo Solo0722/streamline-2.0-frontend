@@ -7,6 +7,7 @@ import { GlobalStyles } from "./shared/themes/globalStyles";
 import { ConfigProvider, theme } from "antd";
 import { darkTheme, defaultTheme, lightTheme } from "./shared/themes/theme";
 import useLocalStorage from "beautiful-react-hooks/useLocalStorage";
+import GlobalProvider from "./context/context";
 
 function App() {
   const isDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -30,15 +31,17 @@ function App() {
         <ThemeProvider theme={appTheme === "light" ? lightTheme : darkTheme}>
           <GlobalStyles />
           <BrowserRouter>
-            <Routes>
-              <Route
-                path="/*"
-                element={
-                  <MainRoutes appTheme={appTheme} setAppTheme={setAppTheme} />
-                }
-              />
-              <Route path="/auth" element={<Auth />} />
-            </Routes>
+            <GlobalProvider>
+              <Routes>
+                <Route
+                  path="/*"
+                  element={
+                    <MainRoutes appTheme={appTheme} setAppTheme={setAppTheme} />
+                  }
+                />
+                <Route path="/auth" element={<Auth />} />
+              </Routes>
+            </GlobalProvider>
           </BrowserRouter>
         </ThemeProvider>
       </ConfigProvider>

@@ -1,17 +1,24 @@
-import { Button, Tag } from "antd";
+import { Button, Image, Tag } from "antd";
+import moment from "moment";
 import React from "react";
 import { CiBookmarkPlus } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MEDIA_QUERIES } from "../shared/utils/constants";
+import { urlFor } from "../shared/utils/sanityClient";
 
-const BlogCard = () => {
+const BlogCard = ({ blog }: any) => {
   const navigate = useNavigate();
 
   return (
     <CardWrapper>
       <ImageWrapper>
-        <img src="/home-page-bg.png" alt="" />
+        <Image
+          width={"100%"}
+          src={urlFor(blog.mainImage).url()}
+          alt="blog-img"
+          className="blog-img"
+        />
         <StyledBookmarkButton
           shape="circle"
           type="text"
@@ -21,11 +28,13 @@ const BlogCard = () => {
       </ImageWrapper>
       <ContentWrapper>
         <div className="info-bar">
-          <small className="date">Dec 30</small>
-          <StyledTag>Web dev</StyledTag>
+          <small className="date">
+            {moment(blog._updatedAt).format("MMMM Do")}
+          </small>
+          <StyledTag>{blog.category}</StyledTag>
         </div>
-        <div className="title" onClick={() => navigate("/blogs/1")}>
-          <h3>The best fonts in 2023</h3>
+        <div className="title" onClick={() => navigate(`/blogs/${blog._id}`)}>
+          <h3>{blog.title}</h3>
           <small className="desc">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet odit
             quibusdam ducimus possimus distinctio expedita natus, suscipit
@@ -46,6 +55,13 @@ const CardWrapper = styled.div`
   color: ${({ theme }) => theme.blogCardText};
   cursor: pointer;
 
+  ${MEDIA_QUERIES.TABLET} {
+    & {
+      max-width: 45%;
+      flex: 0 0 45%;
+    }
+  }
+
   ${MEDIA_QUERIES.MOBILE} {
     & {
       max-width: 100%;
@@ -59,9 +75,9 @@ const ImageWrapper = styled.div`
   height: 200px;
   position: relative;
 
-  & img {
+  & .blog-img {
     width: 100%;
-    height: 100%;
+    height: 200px;
     border-radius: 10px;
     object-fit: cover;
   }

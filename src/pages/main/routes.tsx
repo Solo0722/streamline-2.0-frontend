@@ -35,10 +35,11 @@ const MainRoutes = ({ appTheme, setAppTheme }: IAppThemeAndDrawerProps) => {
         />
         <Routes>
           <Route path="/*" element={<Home />} />
-          <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/user-profile/:userId" element={<UserProfile />} />
           <Route path="/blogs/:blogId" element={<BlogDetails />} />
           <Route path="/create-blog" element={<CreateBlog />} />
           <Route path="/search/:searchTerm" element={<Search />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </RoutesWrapper>
     </>

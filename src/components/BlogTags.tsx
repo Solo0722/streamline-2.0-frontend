@@ -4,19 +4,31 @@ import styled from "styled-components";
 import { blogTags } from "../shared/utils/data";
 import { CiSearch } from "react-icons/ci";
 import { MEDIA_QUERIES } from "../shared/utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const BlogTags = () => {
+  const navigate = useNavigate();
+
   return (
     <BlogTagsWrapper>
       <div>
         {blogTags.map((tag) => (
-          <span className="blog-tag" key={tag}>
+          <span
+            className="blog-tag"
+            key={tag}
+            onClick={() => navigate(`/search/${tag}`)}
+          >
             {tag}
           </span>
         ))}
       </div>
       <div>
-        <Button shape="circle" type="text" icon={<CiSearch />} />
+        <Button
+          shape="circle"
+          type="text"
+          icon={<CiSearch />}
+          onClick={() => navigate("/search")}
+        />
       </div>
     </BlogTagsWrapper>
   );
@@ -41,7 +53,7 @@ const BlogTagsWrapper = styled.div`
   }
 
   ${MEDIA_QUERIES.TABLET} {
-    &  {
+    & {
       display: none;
     }
   }

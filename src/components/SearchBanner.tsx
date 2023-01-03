@@ -60,7 +60,7 @@ const SearchBannerWrapper = styled.div`
   }
 `;
 
-const StyledSearchInput = styled(Input)`
+export const StyledSearchInput = styled(Input)`
   border-radius: 100px;
   height: 45px;
   width: 62%;
@@ -73,7 +73,7 @@ const StyledSearchInput = styled(Input)`
     }
   }
 `;
-const StyledSearchButton = styled(Button)`
+export const StyledSearchButton = styled(Button)`
   border-radius: 100px;
   height: 45px;
   width: 30%;

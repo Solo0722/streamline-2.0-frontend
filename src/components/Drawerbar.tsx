@@ -58,7 +58,7 @@ const Drawerbar = ({
             icon={<HiOutlinePencilSquare />}
           />
         </ListItem>
-        <ListItem onClick={() => navigateTo(`/search/${null}`)}>
+        <ListItem onClick={() => navigateTo(`/search`)}>
           <span> Search blogs</span>
           <StyleThemeButton
             type="text"

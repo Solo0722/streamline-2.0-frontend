@@ -1,5 +1,5 @@
 import { Avatar, Button, FloatButton, Image } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlineHeart, HiPlay } from "react-icons/hi2";
 import styled from "styled-components";
 import BlogCard, { StyledTag } from "../../components/BlogCard";
@@ -21,215 +21,190 @@ import {
 } from "react-icons/ci";
 import CommentsSection from "../../components/CommentsSection";
 import { MEDIA_QUERIES } from "../../shared/utils/constants";
+import { useNavigate, useParams } from "react-router-dom";
+import { client, urlFor } from "../../shared/utils/sanityClient";
+import {
+  similarBlogsQuery,
+  singleBlogQuery,
+} from "../../shared/utils/sanityQueries";
+import Spinner from "../../components/Spinner";
+import moment from "moment";
+import { PortableText } from "@portabletext/react";
+
+const components = {
+  types: {
+    code: (props: any) => (
+      <pre data-language={props.node.language}>
+        <code>{props.node.code}</code>
+      </pre>
+    ),
+  },
+};
 
 const BlogDetails = () => {
-  // useEffect(() => {
-  //   scrollTo(0, 0);
-  // }, []);
+  useEffect(() => {
+    scrollTo(0, 0);
+  }, []);
+
+  const { blogId } = useParams();
+  const navigate = useNavigate();
+  const [blog, setBlog] = useState(null);
+  const [similarBlogs, setSimilarBlogs] = useState([]);
+
+  useEffect(() => {
+    const q = singleBlogQuery(blogId || "");
+    client.fetch(q).then((data) => {
+      setBlog(data[0]);
+    });
+
+    if (blog) {
+      const q = similarBlogsQuery(blog);
+      client.fetch(q).then((data) => {
+        setSimilarBlogs(data);
+      });
+    }
+  }, [blogId]);
 
   return (
     <BlogWrapper>
       <BlogTags />
       <FloatButton.BackTop />
-      <BodyWrapper>
-        <MainContentWrapper>
-          <InfoWrapper>
-            <div>
-              <StyledTag>Web dev</StyledTag>
-              <small>
-                <span>
-                  <CiCalendar />
-                </span>
-                <span>Dec 30, 2022</span>
-              </small>
-              <small>
-                <span>
-                  <CiClock2 />
-                </span>
-                <span>9mins read</span>
-              </small>
-              <Button type="text" icon={<HiPlay />} />
-            </div>
-            <Avatar src="http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcTdGOzztryRA56uiLUTqfEcKRXcHbe-9mNSiUeAZzFzinX3MG3yIn_Ub8f_8L98BgOpZG53IZ0aigknl00" />
-          </InfoWrapper>
-          <ContentWrapper>
-            <h1>The best fonts of 2023</h1>
-            <Image className="main-image" src="/home-page-bg.png" alt="" />
-            <div className="blockContent">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Deserunt quo ut tempore est, culpa optio eius tenetur blanditiis
-                enim hic laudantium rem repudiandae, quis consequuntur!
-                Explicabo delectus ex autem pariatur?
-              </p>
-            </div>
-          </ContentWrapper>
-        </MainContentWrapper>
-        <SideContentWrapper>
-          <StyledSideContentButton
-            type="text"
-            shape="round"
-            icon={<CiHeart />}
-            block
-          >
-            <span>Like</span>
-            <span>58</span>
-          </StyledSideContentButton>
-          <StyledSideContentButton
-            type="text"
-            shape="round"
-            icon={<CiBookmarkPlus />}
-            block
-          >
-            <span>Add to your list</span>
-          </StyledSideContentButton>
-          <StyledSideContentButton
-            type="text"
-            shape="round"
-            icon={<CiChat1 />}
-            block
-          >
-            <span>Leave a comment</span>
-          </StyledSideContentButton>
-          <StyledSideContentButton
-            type="text"
-            shape="round"
-            icon={<CiTwitter />}
-            block
-          >
-            <span>Share to twitter</span>
-          </StyledSideContentButton>
-          <StyledSideContentButton
-            type="text"
-            shape="round"
-            icon={<CiFacebook />}
-            block
-          >
-            <span>Share to facebook</span>
-          </StyledSideContentButton>
-          <StyledSideContentButton
-            type="text"
-            shape="round"
-            icon={<CiLinkedin />}
-            block
-          >
-            <span>Share to linkedin</span>
-          </StyledSideContentButton>
-          <StyledSideContentButton
-            type="text"
-            shape="round"
-            icon={<CiLink />}
-            block
-          >
-            <span>Copy link</span>
-          </StyledSideContentButton>
-        </SideContentWrapper>
-      </BodyWrapper>
-      <RelatedBlogsWrapper>
-        <h3>More from Streamline</h3>
-        <RelatedWrapper>
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-        </RelatedWrapper>
-      </RelatedBlogsWrapper>
-      <CommentsSection />
+      {!blog || blog === null ? (
+        <SpinnerWrapper>
+          <Spinner />
+        </SpinnerWrapper>
+      ) : (
+        <>
+          <BodyWrapper>
+            <MainContentWrapper>
+              <InfoWrapper>
+                <div>
+                  <StyledTag>{blog.category}</StyledTag>
+                  <small>
+                    <span>
+                      <CiCalendar />
+                    </span>
+                    <span>
+                      {moment(blog._updatedAt).format("MMMM Do YYYY")}
+                    </span>
+                  </small>
+                  <small>
+                    <span>
+                      <CiClock2 />
+                    </span>
+                    <span>9mins read</span>
+                  </small>
+                  <Button type="text" icon={<HiPlay />} />
+                </div>
+                <Avatar
+                  src={urlFor(blog.author.image).url()}
+                  onClick={() => navigate(`/user-profile/${blog.author._id}`)}
+                  style={{ cursor: "pointer" }}
+                />
+              </InfoWrapper>
+              <ContentWrapper>
+                <h1>{blog.title}</h1>
+                <Image
+                  width="100%"
+                  className="main-image"
+                  src={urlFor(blog.mainImage).url()}
+                  alt=""
+                />
+                <div className="blockContent">
+                  <PortableText value={blog.body} components={components} />
+                </div>
+              </ContentWrapper>
+            </MainContentWrapper>
+            <SideContentWrapper>
+              <StyledSideContentButton
+                type="text"
+                shape="round"
+                icon={<CiHeart />}
+                block
+              >
+                <span>Like</span>
+                <span>{blog.likes ? blog.likes.length : "0"}</span>
+              </StyledSideContentButton>
+              <StyledSideContentButton
+                type="text"
+                shape="round"
+                icon={<CiBookmarkPlus />}
+                block
+              >
+                <span>Add to your list</span>
+              </StyledSideContentButton>
+              <StyledSideContentButton
+                type="text"
+                shape="round"
+                icon={<CiChat1 />}
+                block
+              >
+                <span>Leave a comment</span>
+              </StyledSideContentButton>
+              <StyledSideContentButton
+                type="text"
+                shape="round"
+                icon={<CiTwitter />}
+                block
+              >
+                <span>Share to twitter</span>
+              </StyledSideContentButton>
+              <StyledSideContentButton
+                type="text"
+                shape="round"
+                icon={<CiFacebook />}
+                block
+              >
+                <span>Share to facebook</span>
+              </StyledSideContentButton>
+              <StyledSideContentButton
+                type="text"
+                shape="round"
+                icon={<CiLinkedin />}
+                block
+              >
+                <span>Share to linkedin</span>
+              </StyledSideContentButton>
+              <StyledSideContentButton
+                type="text"
+                shape="round"
+                icon={<CiLink />}
+                block
+              >
+                <span>Copy link</span>
+              </StyledSideContentButton>
+            </SideContentWrapper>
+          </BodyWrapper>
+          <RelatedBlogsWrapper>
+            <h3>More from Streamline</h3>
+            {similarBlogs.length == 0 ? (
+              "No similar blogs to show"
+            ) : (
+              <RelatedWrapper>
+                {similarBlogs.map((bl) => (
+                  <BlogCard blog={bl} />
+                ))}
+              </RelatedWrapper>
+            )}
+          </RelatedBlogsWrapper>
+          <CommentsSection />
+        </>
+      )}
     </BlogWrapper>
   );
 };
 
 const BlogWrapper = styled.div`
   width: 100%;
+`;
+
+const SpinnerWrapper = styled.div`
+  width: 100%;
+  padding: 1rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const BodyWrapper = styled.div`
@@ -297,17 +272,19 @@ const InfoWrapper = styled.div`
 `;
 const ContentWrapper = styled.div`
   margin: 1rem 0;
+  width: 100%;
 
   & h1 {
     margin-bottom: 1rem;
     font-weight: bolder;
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 
   & .main-image {
     border-radius: 10px;
     width: 100%;
     height: 300px;
+    object-fit: cover;
   }
 
   & .blockContent {
