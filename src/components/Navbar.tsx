@@ -1,6 +1,6 @@
 import { EditOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Button } from "antd";
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { IAppThemeAndDrawerProps } from "../pages/main/routes";
@@ -8,6 +8,7 @@ import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
 import { MEDIA_QUERIES } from "../shared/utils/constants";
 import { Fade as Hamburger } from "hamburger-react";
+import { GlobalContext } from "../context/context";
 
 const Navbar = ({
   appTheme,
@@ -16,6 +17,7 @@ const Navbar = ({
   setIsDrawerOpen,
 }: IAppThemeAndDrawerProps) => {
   const navigate = useNavigate();
+  const { currentUser } = useContext(GlobalContext);
 
   return (
     <NavWrapper>
@@ -24,20 +26,27 @@ const Navbar = ({
       </Link>
       <ToolsWrapper>
         <ThemeSwitcher appTheme={appTheme} setAppTheme={setAppTheme} />
-        <StyledWriteButton
-          type="primary"
-          shape="round"
-          icon={<HiOutlinePencilSquare style={{ marginRight: "5px" }} />}
-          onClick={() => navigate("/create-blog")}
-        >
-          Write
-        </StyledWriteButton>
-        <Button shape="round" onClick={() => navigate("/auth")}>
-          Login
-        </Button>
-        {/* <Avatar className="avatar">
-          <UserOutlined />
-        </Avatar> */}
+
+        {currentUser !== null && (
+          <StyledWriteButton
+            type="primary"
+            shape="round"
+            icon={<HiOutlinePencilSquare style={{ marginRight: "5px" }} />}
+            onClick={() => navigate("/create-blog")}
+          >
+            Write
+          </StyledWriteButton>
+        )}
+
+        {currentUser || currentUser !== null ? (
+          <Avatar className="avatar">
+            <UserOutlined />
+          </Avatar>
+        ) : (
+          <Button shape="round" onClick={() => navigate("/auth")}>
+            Login
+          </Button>
+        )}
       </ToolsWrapper>
       <div className="hamburger">
         <Hamburger size={18} toggled={isDrawerOpen} toggle={setIsDrawerOpen} />

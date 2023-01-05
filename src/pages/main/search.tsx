@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { SpinnerWrapper } from "./home";
 import Spinner from "../../components/Spinner";
 import BlogCard from "../../components/BlogCard";
+import { message } from "antd";
 
 const Search = () => {
   const { searchTerm } = useParams();
@@ -25,22 +26,14 @@ const Search = () => {
     navigate(`/search/${e.target[0].value}`);
   };
 
-  const searchBlog = () => {
-    if (searchTerm !== undefined) {
-      const q = searchQuery(searchTerm.toLowerCase());
-      client.fetch(q).then((data) => {
-        setSearchTermBlogs(data);
-        console.log(data);
-      });
-    }
-  };
-
   useEffect(() => {
     if (searchTerm !== undefined) {
       const q = searchQuery(searchTerm.toLowerCase());
       client.fetch(q).then((data) => {
         setSearchTermBlogs(data);
-        console.log(data);
+        if (data.length === 0 || !data.length) {
+          message.info(`No results for ${searchTerm} found!`);
+        }
       });
     }
   }, [searchTerm, navigate]);
@@ -57,9 +50,7 @@ const Search = () => {
         </form>
 
         {searchTerm && (
-          <p style={{ textAlign: "center" }}>
-            Search results for {searchTerm}
-          </p>
+          <p style={{ textAlign: "center" }}>Search results for {searchTerm}</p>
         )}
 
         {searchTermBlogs &&

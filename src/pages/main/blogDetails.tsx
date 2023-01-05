@@ -109,6 +109,7 @@ const BlogDetails = () => {
                   className="main-image"
                   src={urlFor(blog.mainImage).url()}
                   alt=""
+                  loading="lazy"
                 />
                 <div className="blockContent">
                   <PortableText value={blog.body} components={components} />

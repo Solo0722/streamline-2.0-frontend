@@ -1,5 +1,16 @@
 export const userQuery = (userId: string) => {
-  const query = `*[_type == 'user' && _id == '${userId}']`;
+  const query = `*[_type == 'user' && _id == '${userId}']{
+    userName,
+    bio,
+    email,
+    bookmarks,
+    image  {
+      asset -> {
+        _id,
+        url
+      }
+    }
+  }`;
 
   return query;
 };

@@ -6,12 +6,15 @@ import { blogsQuery, singleBlogQuery } from "../shared/utils/sanityQueries";
 
 type IContext = {
   blogs?: object[];
+  currentUser?: unknown;
+  setCurrentUser?: (currentUser: unknown) => void;
 };
 
 export const GlobalContext = createContext<IContext>({});
 
 const GlobalProvider = ({ children }: any) => {
   const [blogs, setBlogs] = useLocalStorage("blogs", []);
+  const [currentUser, setCurrentUser] = useLocalStorage("currentUser", null);
   const location = useLocation();
 
   const getAllBlogs = () => {
@@ -20,14 +23,20 @@ const GlobalProvider = ({ children }: any) => {
     });
   };
 
-  
+  const likeBlog = () => {};
+
+  const unlikeBlog = () => {};
+
+  const commentOnBlog = () => {};
+
+  const bookmarkBlog = () => {};
 
   useEffect(() => {
     location.pathname === "/" && getAllBlogs();
   }, [location]);
 
   return (
-    <GlobalContext.Provider value={{ blogs }}>
+    <GlobalContext.Provider value={{ blogs, currentUser, setCurrentUser }}>
       {children}
     </GlobalContext.Provider>
   );

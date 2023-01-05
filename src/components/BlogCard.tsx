@@ -18,6 +18,7 @@ const BlogCard = ({ blog }: any) => {
           src={urlFor(blog.mainImage).url()}
           alt="blog-img"
           className="blog-img"
+          loading="lazy"
         />
         <StyledBookmarkButton
           shape="circle"

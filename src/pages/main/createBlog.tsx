@@ -9,12 +9,16 @@ import {
   Select,
   Upload,
 } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BsCloudUpload } from "react-icons/bs";
 import styled from "styled-components";
 import { MEDIA_QUERIES } from "../../shared/utils/constants";
+import { GlobalContext } from "../../context/context";
+import { useNavigate } from "react-router-dom";
 
 const CreateBlog = () => {
+  const { currentUser } = useContext(GlobalContext);
+  const navigate = useNavigate();
   const onFinish = (values: any) => {
     console.log("Success:", values);
   };
@@ -22,6 +26,12 @@ const CreateBlog = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
+
+  useEffect(() => {
+    if (!currentUser || currentUser === null) {
+      navigate("/auth");
+    }
+  }, []);
 
   return (
     <CreateBlogWrapper>
