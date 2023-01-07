@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { Form, Button, message, Input, Divider } from "antd";
 import { Link } from "react-router-dom";
 import { MEDIA_QUERIES } from "../../shared/utils/constants";
+import { GlobalContext } from '../../context/context';
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [form] = Form.useForm();
+
+  const { signInWithGoogle } = useContext(GlobalContext);
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
@@ -102,6 +105,7 @@ const Auth = () => {
             <Divider />
           </DividerContainer>
           <Button
+            onClick={signInWithGoogle}
             block
             style={{
               display: "flex",

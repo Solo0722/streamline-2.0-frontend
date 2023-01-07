@@ -1,5 +1,5 @@
 import { Button, List, Tag } from "antd";
-import React from "react";
+import React, { useContext } from "react";
 import { CiSearch } from "react-icons/ci";
 import {
   HiOutlinePencilSquare,
@@ -14,6 +14,7 @@ import { IAppThemeAndDrawerProps } from "../pages/main/routes";
 import ThemeSwitcher, { StyleThemeButton } from "./ThemeSwitcher";
 import { useNavigate } from "react-router-dom";
 import { blogTags } from "../shared/utils/data";
+import { GlobalContext } from "../context/context";
 
 const Drawerbar = ({
   isDrawerOpen,
@@ -22,6 +23,7 @@ const Drawerbar = ({
   setAppTheme,
 }: IAppThemeAndDrawerProps) => {
   const navigate = useNavigate();
+  const { currentUser } = useContext(GlobalContext);
 
   const themeToggler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -66,8 +68,14 @@ const Drawerbar = ({
             icon={<HiOutlineMagnifyingGlass />}
           />
         </ListItem>
-        <ListItem onClick={() => navigateTo("/auth")}>
-          <span>Log in</span>
+        <ListItem
+          onClick={() => {
+            currentUser
+              ? navigate(`/user-profile/${currentUser.uid}`)
+              : navigate("/auth");
+          }}
+        >
+          <span>{currentUser ? "Profile" : "Login"}</span>
           <StyleThemeButton
             type="text"
             shape="circle"

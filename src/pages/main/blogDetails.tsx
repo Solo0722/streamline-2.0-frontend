@@ -1,5 +1,5 @@
 import { Avatar, Button, FloatButton, Image } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { HiOutlineHeart, HiPlay } from "react-icons/hi2";
 import styled from "styled-components";
 import BlogCard, { StyledTag } from "../../components/BlogCard";
@@ -30,6 +30,7 @@ import {
 import Spinner from "../../components/Spinner";
 import moment from "moment";
 import { PortableText } from "@portabletext/react";
+import { GlobalContext } from "../../context/context";
 
 const components = {
   types: {
@@ -50,6 +51,8 @@ const BlogDetails = () => {
   const navigate = useNavigate();
   const [blog, setBlog] = useState(null);
   const [similarBlogs, setSimilarBlogs] = useState([]);
+  const [liked, setLiked] = useState(false);
+  const { likeBlog } = useContext(GlobalContext);
 
   useEffect(() => {
     const q = singleBlogQuery(blogId || "");
@@ -97,7 +100,7 @@ const BlogDetails = () => {
                   <Button type="text" icon={<HiPlay />} />
                 </div>
                 <Avatar
-                  src={urlFor(blog.author.image).url()}
+                  src={blog.author.image}
                   onClick={() => navigate(`/user-profile/${blog.author._id}`)}
                   style={{ cursor: "pointer" }}
                 />
@@ -118,10 +121,15 @@ const BlogDetails = () => {
             </MainContentWrapper>
             <SideContentWrapper>
               <StyledSideContentButton
+                disabled={liked}
                 type="text"
                 shape="round"
                 icon={<CiHeart />}
                 block
+                onClick={() => {
+                  likeBlog(blog._id);
+                  setLiked(true);
+                }}
               >
                 <span>Like</span>
                 <span>{blog.likes ? blog.likes.length : "0"}</span>

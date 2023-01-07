@@ -1,5 +1,5 @@
 import { EditOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
-import { Avatar, Button } from "antd";
+import { Avatar, Button, Dropdown, MenuProps } from "antd";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import ThemeSwitcher from "./ThemeSwitcher";
@@ -17,7 +17,21 @@ const Navbar = ({
   setIsDrawerOpen,
 }: IAppThemeAndDrawerProps) => {
   const navigate = useNavigate();
-  const { currentUser } = useContext(GlobalContext);
+  const { currentUser, signUserOut } = useContext(GlobalContext);
+
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: "Profile",
+      onClick: () =>
+        navigate(`/user-profile/${currentUser && currentUser.uid}`),
+    },
+    {
+      key: "2",
+      label: "Sign out",
+      onClick: signUserOut,
+    },
+  ];
 
   return (
     <NavWrapper>
@@ -39,9 +53,18 @@ const Navbar = ({
         )}
 
         {currentUser || currentUser !== null ? (
-          <Avatar className="avatar">
-            <UserOutlined />
-          </Avatar>
+          <Dropdown
+            menu={{
+              items,
+            }}
+          >
+            <Avatar
+              className="avatar"
+              src={currentUser && currentUser?.photoURL}
+            >
+              <UserOutlined />
+            </Avatar>
+          </Dropdown>
         ) : (
           <Button shape="round" onClick={() => navigate("/auth")}>
             Login
@@ -92,6 +115,7 @@ const ToolsWrapper = styled.div`
 
   & .avatar {
     background: ${({ theme }) => theme.themeButtonBg};
+    cursor: pointer;
   }
 
   ${MEDIA_QUERIES.TABLET} {

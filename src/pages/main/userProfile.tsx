@@ -30,7 +30,7 @@ const UserProfile = () => {
           <Image
             width={"100px"}
             height={"100px"}
-            src={userData ? urlFor(userData?.image).url() : ""}
+            src={userData ? userData?.image : ""}
           />
         </ProfileImage>
         {/* <StyledEditProfileBtn shape="round" type="default">
@@ -40,12 +40,10 @@ const UserProfile = () => {
       <BioWrapper>
         <div>
           <h3>{userData?.userName}</h3>
-          <small>owusuansahsolo@gmail.com</small>
         </div>
         <div>
           <small>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-            placeat, dolorem provident labore totam quasi
+            {userData?.bio}
           </small>
         </div>
       </BioWrapper>

@@ -2,14 +2,8 @@ export const userQuery = (userId: string) => {
   const query = `*[_type == 'user' && _id == '${userId}']{
     userName,
     bio,
-    email,
     bookmarks,
-    image  {
-      asset -> {
-        _id,
-        url
-      }
-    }
+    image
   }`;
 
   return query;
@@ -45,12 +39,7 @@ export const singleBlogQuery = (blogId: string) => {
     author -> {
       _id,
       userName,
-      image{
-        asset -> {
-          _id,
-          url
-        }
-      }
+      image
     },
     mainImage {
     asset -> {
