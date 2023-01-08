@@ -1,5 +1,5 @@
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Modal } from "antd";
+import { message, Modal } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import {
   createUserWithEmailAndPassword,
@@ -12,15 +12,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { auth, provider } from "../shared/utils/firebase";
 import { useLocalStorage } from "../shared/utils/hooks";
 import { client } from "../shared/utils/sanityClient";
-import { blogsQuery, singleBlogQuery } from "../shared/utils/sanityQueries";
+import { blogsQuery } from "../shared/utils/sanityQueries";
 
 type IContext = {
   blogs?: object[];
-  currentUser?: unknown;
+  currentUser?: any;
   setCurrentUser?: (currentUser: unknown) => void;
   signInWithGoogle?: () => void;
   signUserOut?: () => void;
-  likeBlog?: () => void;
+  likeBlog?: (blogId: string) => void;
+  bookmarkBlog?: (blogId: string) => void;
 };
 
 export const GlobalContext = createContext<IContext>({});
@@ -107,7 +108,9 @@ const GlobalProvider = ({ children }: any) => {
           },
         ])
         .commit()
-        .then(() => {});
+        .then(() => {
+          window.location.reload();
+        });
     } else {
       navigate("/auth");
     }
@@ -115,9 +118,28 @@ const GlobalProvider = ({ children }: any) => {
 
   const unlikeBlog = () => {};
 
-  const commentOnBlog = () => {};
-
-  const bookmarkBlog = () => {};
+  const bookmarkBlog = (blogId: string) => {
+    if (currentUser) {
+      client
+        .patch(currentUser.uid)
+        .setIfMissing({ bookmarks: [] })
+        .insert("after", "bookmarks[-1]", [
+          {
+            _key: uuidv4(),
+            post: {
+              _type: "post",
+              _ref: blogId,
+            },
+          },
+        ])
+        .commit()
+        .then(() => {
+          message.success("Added to list successfully");
+        });
+    } else {
+      navigate("/auth");
+    }
+  };
 
   useEffect(() => {
     location.pathname === "/" && getAllBlogs();
@@ -132,6 +154,7 @@ const GlobalProvider = ({ children }: any) => {
         signInWithGoogle,
         signUserOut,
         likeBlog,
+        bookmarkBlog,
       }}
     >
       {children}

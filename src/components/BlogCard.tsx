@@ -1,14 +1,16 @@
 import { Button, Image, Tag } from "antd";
 import moment from "moment";
-import React from "react";
+import React, { useContext } from "react";
 import { CiBookmarkPlus } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MEDIA_QUERIES } from "../shared/utils/constants";
 import { urlFor } from "../shared/utils/sanityClient";
+import { GlobalContext } from '../context/context';
 
 const BlogCard = ({ blog }: any) => {
   const navigate = useNavigate();
+  const { currentUser } = useContext(GlobalContext);
 
   return (
     <CardWrapper>
@@ -20,12 +22,14 @@ const BlogCard = ({ blog }: any) => {
           className="blog-img"
           loading="lazy"
         />
-        <StyledBookmarkButton
-          shape="circle"
-          type="text"
-          icon={<CiBookmarkPlus size={20} />}
-          onClick={(e) => e.stopPropagation()}
-        />
+        {currentUser && (
+          <StyledBookmarkButton
+            shape="circle"
+            type="text"
+            icon={<CiBookmarkPlus size={20} />}
+            onClick={(e) => e.stopPropagation()}
+          />
+        )}
       </ImageWrapper>
       <ContentWrapper>
         <div className="info-bar">

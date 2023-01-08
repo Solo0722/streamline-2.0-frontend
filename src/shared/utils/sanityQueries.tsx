@@ -2,7 +2,23 @@ export const userQuery = (userId: string) => {
   const query = `*[_type == 'user' && _id == '${userId}']{
     userName,
     bio,
-    bookmarks,
+    bookmarks[] {
+      post -> {
+         title,
+  body,
+  _createdAt,
+  _updatedAt,
+  _id,
+  category,
+  mainImage {
+    asset -> {
+      _id,
+      url
+    },
+    alt
+  }
+      }
+    },
     image
   }`;
 
@@ -25,6 +41,39 @@ export const blogsQuery = `*[_type == 'post' ] | order(_createdAt desc){
   }
 }`;
 
+export const userBlogsQuery = (userId: string) => {
+  const query = `*[_type == "post" &&  author._ref == '${userId}']{
+    _id,
+    _rev,
+    title,
+    body,
+    _createdAt,
+    _updatedAt,
+    category,
+    comments[] {
+      comment,
+      user -> {
+        _id,
+        userName,
+        image
+      }
+    },
+    likes[],
+    author -> {
+      _id,
+      userName,
+      image
+    },
+    mainImage {
+    asset -> {
+      _id,
+      url
+    }
+  }
+  }`;
+  return query;
+};
+
 export const singleBlogQuery = (blogId: string) => {
   const query = `*[_type == "post" && _id == '${blogId}']{
     _id,
@@ -34,7 +83,14 @@ export const singleBlogQuery = (blogId: string) => {
     _createdAt,
     _updatedAt,
     category,
-    comments[],
+    comments[] {
+      comment,
+      user -> {
+        _id,
+        userName,
+        image
+      }
+    },
     likes[],
     author -> {
       _id,

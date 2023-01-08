@@ -1,22 +1,17 @@
 import { Avatar, Button, FloatButton, Image } from "antd";
 import React, { useContext, useEffect, useState } from "react";
-import { HiOutlineHeart, HiPlay } from "react-icons/hi2";
+import { HiPlay } from "react-icons/hi2";
 import styled from "styled-components";
 import BlogCard, { StyledTag } from "../../components/BlogCard";
 import BlogTags from "../../components/BlogTags";
 import {
   CiBookmarkPlus,
   CiCalendar,
-  CiCalendarDate,
-  CiChat1,
-  CiClock1,
   CiClock2,
   CiFacebook,
   CiHeart,
   CiLink,
   CiLinkedin,
-  CiShare1,
-  CiShare2,
   CiTwitter,
 } from "react-icons/ci";
 import CommentsSection from "../../components/CommentsSection";
@@ -49,15 +44,15 @@ const BlogDetails = () => {
 
   const { blogId } = useParams();
   const navigate = useNavigate();
-  const [blog, setBlog] = useState(null);
+  const [blog, setBlog] = useState<any>(null);
   const [similarBlogs, setSimilarBlogs] = useState([]);
-  const [liked, setLiked] = useState(false);
-  const { likeBlog } = useContext(GlobalContext);
+  const { likeBlog, currentUser, bookmarkBlog } = useContext(GlobalContext);
 
   useEffect(() => {
     const q = singleBlogQuery(blogId || "");
     client.fetch(q).then((data) => {
       setBlog(data[0]);
+      console.log(data[0]);
     });
 
     if (blog) {
@@ -121,35 +116,29 @@ const BlogDetails = () => {
             </MainContentWrapper>
             <SideContentWrapper>
               <StyledSideContentButton
-                disabled={liked}
+                disabled={currentUser ? false : true}
                 type="text"
                 shape="round"
                 icon={<CiHeart />}
                 block
                 onClick={() => {
-                  likeBlog(blog._id);
-                  setLiked(true);
+                  likeBlog?.(blog._id);
                 }}
               >
                 <span>Like</span>
                 <span>{blog.likes ? blog.likes.length : "0"}</span>
               </StyledSideContentButton>
-              <StyledSideContentButton
-                type="text"
-                shape="round"
-                icon={<CiBookmarkPlus />}
-                block
-              >
-                <span>Add to your list</span>
-              </StyledSideContentButton>
-              <StyledSideContentButton
-                type="text"
-                shape="round"
-                icon={<CiChat1 />}
-                block
-              >
-                <span>Leave a comment</span>
-              </StyledSideContentButton>
+              {currentUser ? (
+                <StyledSideContentButton
+                  type="text"
+                  shape="round"
+                  icon={<CiBookmarkPlus />}
+                  block
+                  onClick={() => bookmarkBlog?.(blog._id)}
+                >
+                  <span>Add to your list</span>
+                </StyledSideContentButton>
+              ) : null}
               <StyledSideContentButton
                 type="text"
                 shape="round"
@@ -196,7 +185,7 @@ const BlogDetails = () => {
               </RelatedWrapper>
             )}
           </RelatedBlogsWrapper>
-          <CommentsSection />
+          <CommentsSection blog={blog} />
         </>
       )}
     </BlogWrapper>
