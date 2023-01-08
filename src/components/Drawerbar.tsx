@@ -52,14 +52,17 @@ const Drawerbar = ({
             icon={appTheme === "light" ? <HiOutlineMoon /> : <HiOutlineSun />}
           />
         </ListItem>
-        <ListItem onClick={() => navigateTo("/create-blog")}>
-          <span> Write blog</span>
-          <StyleThemeButton
-            type="text"
-            shape="circle"
-            icon={<HiOutlinePencilSquare />}
-          />
-        </ListItem>
+        {currentUser && (
+          <ListItem onClick={() => navigateTo("/create-blog")}>
+            <span> Write blog</span>
+            <StyleThemeButton
+              type="text"
+              shape="circle"
+              icon={<HiOutlinePencilSquare />}
+            />
+          </ListItem>
+        )}
+
         <ListItem onClick={() => navigateTo(`/search`)}>
           <span> Search blogs</span>
           <StyleThemeButton

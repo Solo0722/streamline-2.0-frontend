@@ -1,4 +1,4 @@
-import { Avatar, Button, FloatButton, Image } from "antd";
+import { Avatar, Button, FloatButton, Image, message } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { HiPlay } from "react-icons/hi2";
 import styled from "styled-components";
@@ -52,7 +52,6 @@ const BlogDetails = () => {
     const q = singleBlogQuery(blogId || "");
     client.fetch(q).then((data) => {
       setBlog(data[0]);
-      console.log(data[0]);
     });
 
     if (blog) {
@@ -62,6 +61,12 @@ const BlogDetails = () => {
       });
     }
   }, [blogId]);
+
+  const copyBlogLink = () => {
+    navigator.clipboard
+      .writeText(`https://streamline-one.vercel.app/blogs/${blog._id}`)
+      .then(() => message.success("Link copied to clipboard successfully"));
+  };
 
   return (
     <BlogWrapper>
@@ -83,7 +88,7 @@ const BlogDetails = () => {
                       <CiCalendar />
                     </span>
                     <span>
-                      {moment(blog._updatedAt).format("MMMM Do YYYY")}
+                      {moment(blog._createdAt).format("MMMM Do YYYY")}
                     </span>
                   </small>
                   <small>
@@ -144,6 +149,8 @@ const BlogDetails = () => {
                 shape="round"
                 icon={<CiTwitter />}
                 block
+                href={`https://twitter.com/intent/tweet/?text=Found this blog interesting and want to share with you guys&url=https://streamline-one.vercel.app/blogs/${blog._id}`}
+                target="_blank"
               >
                 <span>Share to twitter</span>
               </StyledSideContentButton>
@@ -152,6 +159,8 @@ const BlogDetails = () => {
                 shape="round"
                 icon={<CiFacebook />}
                 block
+                href={`https://facebook.com/sharer/sharer.php?u=https://streamline-one.vercel.appp/blogs/${blog._id}`}
+                target="_blank"
               >
                 <span>Share to facebook</span>
               </StyledSideContentButton>
@@ -160,6 +169,8 @@ const BlogDetails = () => {
                 shape="round"
                 icon={<CiLinkedin />}
                 block
+                href={`https://linkedin.com/sharing/share-offsite/?url=https://streamline-one.vercel.app/blogs/${blog._id}`}
+                target="_blank"
               >
                 <span>Share to linkedin</span>
               </StyledSideContentButton>
@@ -168,6 +179,7 @@ const BlogDetails = () => {
                 shape="round"
                 icon={<CiLink />}
                 block
+                onClick={copyBlogLink}
               >
                 <span>Copy link</span>
               </StyledSideContentButton>
@@ -308,6 +320,10 @@ const SideContentWrapper = styled.div`
   border-radius: 10px;
   background: ${({ theme }) => theme.blogTagsBg};
   padding: 1rem;
+
+  & a {
+    text-decoration: none;
+  }
 
   ${MEDIA_QUERIES.TABLET} {
     & {

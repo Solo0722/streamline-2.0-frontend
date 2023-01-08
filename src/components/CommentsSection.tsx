@@ -4,14 +4,17 @@ import styled from "styled-components";
 import { client } from "../shared/utils/sanityClient";
 import { v4 as uuidv4 } from "uuid";
 import { GlobalContext } from "../context/context";
+import { MEDIA_QUERIES } from "../shared/utils/constants";
 
 const CommentsSection = ({ blog }: any) => {
   const { currentUser } = useContext(GlobalContext);
 
-  const [comm, setComm] = useState("");
+  const [comm, setComm] = useState<string>("");
+  const [commenting, setCommenting] = useState<boolean>(false);
 
   const commentOnBlog = (blogId: string, comment: string) => {
     if (comment !== "") {
+      setCommenting(true);
       client
         .patch(blogId)
         .setIfMissing({ comments: [] })
@@ -26,10 +29,9 @@ const CommentsSection = ({ blog }: any) => {
           },
         ])
         .commit()
-        .then(() => window.location.reload());
+        .then(() => setCommenting(false));
     }
   };
-
 
   return (
     <CommentsSectionWrapper>
@@ -58,8 +60,12 @@ const CommentsSection = ({ blog }: any) => {
           value={comm}
           onChange={(e) => setComm(e.currentTarget.value)}
         />
-        <Button type="primary" onClick={() => commentOnBlog(blog._id, comm)}>
-          Comment
+        <Button
+          type="primary"
+          disabled={commenting}
+          onClick={() => commentOnBlog(blog._id, comm)}
+        >
+          {commenting ? "Adding comment" : "Comment"}
         </Button>
       </CommentBox>
     </CommentsSectionWrapper>
@@ -75,6 +81,12 @@ const CommentsSectionWrapper = styled.div`
 
   & h3 {
     margin-bottom: 1rem;
+  }
+
+  ${MEDIA_QUERIES.TABLET} {
+    & {
+      padding: 1rem;
+    }
   }
 `;
 

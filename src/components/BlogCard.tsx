@@ -34,7 +34,7 @@ const BlogCard = ({ blog }: any) => {
       <ContentWrapper>
         <div className="info-bar">
           <small className="date">
-            {moment(blog._updatedAt).format("MMMM Do")}
+            {moment(blog._createdAt).format("MMMM Do")}
           </small>
           <StyledTag>{blog.category}</StyledTag>
         </div>

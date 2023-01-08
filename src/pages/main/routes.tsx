@@ -8,6 +8,7 @@ import BlogDetails from "./blogDetails";
 import CreateBlog from "./createBlog";
 import Search from "./search";
 import Drawerbar from "../../components/Drawerbar";
+import Footer from "../../components/Footer";
 
 export interface IAppThemeAndDrawerProps {
   appTheme?: unknown;
@@ -42,12 +43,14 @@ const MainRoutes = ({ appTheme, setAppTheme }: IAppThemeAndDrawerProps) => {
           <Route path="/search" element={<Search />} />
         </Routes>
       </RoutesWrapper>
+      <Footer />
     </>
   );
 };
 
 const RoutesWrapper = styled.div`
   width: 100%;
+  min-height: 90vh;
   position: relative;
 `;
 
