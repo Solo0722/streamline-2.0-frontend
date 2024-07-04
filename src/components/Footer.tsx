@@ -54,7 +54,7 @@ const FooterWrapper = styled.footer`
   width: 100%;
   height: 200px;
   padding: 2rem;
-  background-color: #1a2238;
+  background-color: #222;
   color: lavender;
   display: flex;
   flex-direction: column;
